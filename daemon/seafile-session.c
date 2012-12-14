@@ -33,6 +33,7 @@ enum {
     REPO_FETCHED,
     REPO_UPLOADED,
     REPO_WORKTREE_CHECKED,
+    REPO_UPLOAD_FILE,
 	LAST_SIGNAL
 };
 
@@ -69,6 +70,13 @@ seafile_session_class_init (SeafileSessionClass *klass)
                       g_cclosure_marshal_VOID__POINTER,
                       G_TYPE_NONE, 1, G_TYPE_POINTER);
 
+    signals[REPO_UPLOAD_FILE] =
+        g_signal_new ("repo-upload-file", SEAFILE_TYPE_SESSION,
+                      G_SIGNAL_RUN_LAST,
+                      0,        /* no class singal handler */
+                      NULL, NULL, /* no accumulator */
+                      g_cclosure_marshal_VOID__POINTER,
+                      G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
 
@@ -165,6 +173,10 @@ seafile_session_new(const char *seafile_dir,
         goto onerror;
 #endif    
 
+    session->upload_mgr = seaf_file_upload_manager_new (session);
+    if (!session->upload_mgr)
+        goto onerror;
+
     return session;
 
 onerror:
@@ -193,6 +205,7 @@ seafile_session_prepare (SeafileSession *session)
     seaf_branch_manager_init (session->branch_mgr);
     seaf_repo_manager_init (session->repo_mgr);
     seaf_clone_manager_init (session->clone_mgr);
+    seaf_file_upload_manager_init (session->upload_mgr);
 #ifndef SEAF_TOOL    
     seaf_sync_manager_init (session->sync_mgr);
 #endif
@@ -237,6 +250,11 @@ seafile_session_start (SeafileSession *session)
 
     if (seaf_clone_manager_start (session->clone_mgr) < 0) {
         g_error ("Failed to start clone manager.\n");
+        return;
+    }
+
+    if (seaf_file_upload_manager_start (session->upload_mgr) < 0) {
+        g_error ("Failed to start file upload manager.\n");
         return;
     }
 

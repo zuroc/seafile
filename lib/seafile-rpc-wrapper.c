@@ -399,3 +399,18 @@ seafile_is_auto_sync_enabled_async (SearpcClient *client,
                                           "seafile_is_auto_sync_enabled",
                                           callback, user_data, 0);
 }
+
+int
+seafile_upload_file (SearpcClient *client,
+                     const char *filepath,
+                     const char *peerid,
+                     const char *repoid,
+                     const char *topath,
+                     GError **error)
+{
+    return searpc_client_call__int (client, "seafile_upload_file", error,
+                                    4, "string", filepath,
+                                    "string", peerid,
+                                    "string", repoid,
+                                    "string", topath);
+}

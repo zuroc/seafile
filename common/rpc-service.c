@@ -1520,6 +1520,23 @@ seafile_gc_get_progress (GError **error)
     return progress;
 }
 
+#ifndef SEAFILE_SERVER
+int
+seafile_upload_file (const char *filepath, const char *peerid, const char *repoid,
+                     const char *topath, GError **error)
+{
+    if (!repoid || strlen(repoid) != 36 ||
+        !peerid || !filepath || !topath) {
+        g_set_error (error, SEAFILE_DOMAIN, SEAF_ERR_BAD_ARGS,
+                     "Bad arguments");
+        return -1;
+    }
+
+    return seaf_repo_manager_upload_file (seaf->repo_mgr, filepath,
+                                          peerid, repoid, topath, error);
+}
+#endif
+
 /*
  * RPC functions only available for server.
  */

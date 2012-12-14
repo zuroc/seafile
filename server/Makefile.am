@@ -32,7 +32,12 @@ proc_headers = $(addprefix processors/, \
 	recvcommit-v2-proc.h \
 	recvcommit-v3-proc.h \
 	check-quota-common.h \
-	putrepoemailtoken-proc.h )
+	putrepoemailtoken-proc.h \
+	check-file-upload-slave-proc.h \
+	uploadfs-slave-proc.h \
+	uploadblock-slave-proc.h \
+	commit-upload-file-slave-proc.h \
+	uploadcommit-slave-proc.h )
 
 proc_headers += ../common/processors/putblock-proc.h \
 	../common/processors/putblock-v2-proc.h
@@ -96,7 +101,12 @@ seaf_server_SOURCES = \
 	processors/putcommit-v2-proc.c \
 	processors/recvcommit-v2-proc.c \
 	processors/recvcommit-v3-proc.c \
-	processors/putrepoemailtoken-proc.c
+	processors/putrepoemailtoken-proc.c \
+	processors/check-file-upload-slave-proc.c \
+	processors/uploadfs-slave-proc.c \
+	processors/uploadblock-slave-proc.c \
+	processors/commit-upload-file-slave-proc.c \
+	processors/uploadcommit-slave-proc.c
 
 seaf_server_LDADD = @CCNET_LIBS@ \
 	$(top_builddir)/lib/libseafile_common.la \

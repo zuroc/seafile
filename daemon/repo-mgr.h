@@ -340,4 +340,12 @@ CheckoutTask *
 seaf_repo_manager_get_checkout_task (SeafRepoManager *mgr,
                                      const char *repo_id);
 
+int
+seaf_repo_manager_upload_file (SeafRepoManager *mgr,
+                               const char *filepath,
+                               const char *peerid,
+                               const char *repoid,
+                               const char *topath,
+                               GError **error);
+
 #endif

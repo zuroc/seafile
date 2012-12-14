@@ -159,4 +159,12 @@ seafile_is_auto_sync_enabled_async (SearpcClient *client,
                                     AsyncCallback callback,
                                     void *user_data);
 
+int
+seafile_upload_file (SearpcClient *client,
+                     const char *filepath,
+                     const char *peerid,
+                     const char *repoid,
+                     const char *topath,
+                     GError **error);
+
 #endif

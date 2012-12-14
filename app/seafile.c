@@ -72,6 +72,7 @@ static int set_auto     (int, char **);
 static int set_manual   (int, char **);
 static int list_repos   (int, char **);
 static int list_worktrees (int , char **);
+static int upload_file  (int, char **);
 
 static struct cmd cmdtab[] =  {
     { "create",         create  },
@@ -81,7 +82,8 @@ static struct cmd cmdtab[] =  {
     { "set-auto",       set_auto },
     { "set-manual",     set_manual },
     { "list-repos",     list_repos },
-    { "list-worktrees", list_worktrees},
+    { "list-worktrees", list_worktrees },
+    { "upload-file",    upload_file },
     { 0 },
 };
 
@@ -133,6 +135,7 @@ void usage()
 "  diff                 Diff two branches\n"
 "  list-repos           List all repositories\n"
 "  list-worktrees       list all worktrees\n"
+"  upload-file          upload a big file to server\n"
     ,stderr);
 }
 
@@ -562,5 +565,35 @@ static int list_worktrees (int argc, char **argv)
         g_object_unref (ptr->data);
     g_list_free (repos);
 
+    return 0;
+}
+
+static int upload_file(int argc, char **argv)
+{
+    char *realpath;
+    argc -= 1;
+    argv += 1;
+
+    if (argc != 4) {
+        fprintf (stderr, "[usage] seafile upload-file <filepath> <peer-id> <repoid> <topath>\n");
+        return -1;
+    }
+
+    GError *error = NULL;
+    int ret;
+
+    realpath = ccnet_expand_path(argv[0]);
+    if (access (realpath, R_OK) < 0) {
+        fprintf (stderr, "File %s doesn't be accessed\n", argv[0]);
+        return -1;
+    }
+
+    ret = seafile_upload_file (rpc_client, realpath, argv[1], argv[2], argv[3], &error);
+    if (ret < 0) {
+        fprintf (stderr, "Failed to upload file: %s\n", error->message);
+        return -1;
+    }
+
+    printf ("start to upload file: %s\n", argv[0]);
     return 0;
 }

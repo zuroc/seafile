@@ -39,6 +39,11 @@
 #include "processors/recvcommit-v2-proc.h"
 #include "processors/recvcommit-v3-proc.h"
 #include "processors/putrepoemailtoken-proc.h"
+#include "processors/check-file-upload-slave-proc.h"
+#include "processors/uploadfs-slave-proc.h"
+#include "processors/uploadblock-slave-proc.h"
+#include "processors/commit-upload-file-slave-proc.h"
+#include "processors/uploadcommit-slave-proc.h"
 
 SeafileSession *seaf;
 SearpcClient *ccnetrpc_client;
@@ -104,6 +109,16 @@ static void register_processors (CcnetClient *client)
                             SEAFILE_TYPE_RECVCOMMIT_V3_PROC, NULL);
     ccnet_register_service (client, "seafile-put-repo-email-token", "basic",
                             SEAFILE_TYPE_PUTREPOEMAILTOKEN_PROC, NULL);
+    ccnet_register_service (client, "seafile-check-file-upload-slave-proc", "basic",
+                            SEAFILE_TYPE_CHECK_FILE_UPLOAD_SLAVE_PROC, NULL);
+    ccnet_register_service (client, "seafile-uploadfs-slave", "basic",
+                            SEAFILE_TYPE_UPLOADFS_SLAVE_PROC, NULL);
+    ccnet_register_service (client, "seafile-upload-block-slave", "basic",
+                            SEAFILE_TYPE_UPLOAD_BLOCK_SLAVE_PROC, NULL);
+    ccnet_register_service (client, "seafile-commit-upload-file-slave", "basic",
+                            SEAFILE_TYPE_COMMIT_UPLOAD_FILE_SLAVE_PROC, NULL);
+    ccnet_register_service (client, "seafile-upload-commit-slave", "basic",
+                            SEAFILE_TYPE_UPLOAD_COMMIT_SLAVE_PROC, NULL);
 }
 
 #include <searpc.h>

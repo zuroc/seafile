@@ -15,6 +15,7 @@
 #include "repo-mgr.h"
 #include "info-mgr.h"
 #include "clone-mgr.h"
+#include "file-upload-mgr.h"
 #include "db.h"
 
 #include "transfer-mgr.h"
@@ -62,6 +63,7 @@ struct _SeafileSession {
     SeafSyncManager     *sync_mgr;
     SeafWTMonitor       *wt_monitor;
     SeafMqManager       *mq_mgr;
+    SeafFileUploadManager *upload_mgr;
 
     CEventManager       *ev_mgr;
     CcnetJobManager     *job_mgr;

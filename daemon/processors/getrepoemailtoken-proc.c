@@ -19,7 +19,7 @@ typedef struct {
    (G_TYPE_INSTANCE_GET_PRIVATE ((o), SEAFILE_TYPE_GETREPOEMAILTOKEN_PROC, SeafileGetrepoemailtokenProcPriv))
 
 #define USE_PRIV \
-    SeafileGetrepoemailtokenProcPriv *priv = GET_PRIV(processor);
+    SeafileGetrepoemailtokenProcPriv *priv = GET_PRIV(processor)
 
 
 G_DEFINE_TYPE (SeafileGetrepoemailtokenProc, seafile_getrepoemailtoken_proc, CCNET_TYPE_PROCESSOR)

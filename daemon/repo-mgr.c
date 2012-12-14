@@ -3067,3 +3067,46 @@ seaf_repo_manager_get_repo_relay_info (SeafRepoManager *mgr,
     if (relay_port && port)
         *relay_port = port;
 }
+
+int
+seaf_repo_manager_upload_file (SeafRepoManager *mgr,
+                               const char *filepath,
+                               const char *peerid,
+                               const char *repoid,
+                               const char *topath,
+                               GError **error)
+{
+    SeafRepo *repo = NULL;
+    char *filename;
+
+    if (access (filepath, R_OK) != 0) {
+        seaf_warning ("[upload file] File %s doesn't exist or not readable.\n",
+                      filepath);
+        g_set_error (error, SEAFILE_DOMAIN, SEAF_ERR_BAD_ARGS,
+                     "Invalid input file");
+        return -1;
+    }
+
+    repo = seaf_repo_manager_get_repo (seaf->repo_mgr, repoid);
+    if (!repo) {
+        seaf_warning ("Repo %s doesn't exist.\n", repoid);
+        g_set_error (error, SEAFILE_DOMAIN, SEAF_ERR_BAD_ARGS, "Invalid repo");
+        return -1;
+    }
+
+    /* Retrieve filename from filepath. */
+#ifdef WIN32
+    filename = strrchr(filepath, '\\') + 1;
+#else /* !WIN32 */
+    filename = strrchr(filepath, '/') + 1;
+#endif
+    if (should_ignore (filename, NULL)) {
+        seaf_warning ("[upload file] Invalid filename %s.\n", filepath);
+        g_set_error (error, SEAFILE_DOMAIN, SEAF_ERR_BAD_ARGS,
+                     "Invalid filename");
+        return -1;
+    }
+
+    return seaf_file_upload_manager_add_task (seaf->upload_mgr, filepath,
+                                              peerid, repoid, topath, error);
+}

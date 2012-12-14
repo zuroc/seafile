@@ -222,6 +222,11 @@ start_rpc_service (CcnetClient *client)
                                      "seafile_get_checkout_task",
                                      searpc_signature_object__string());
 
+    searpc_server_register_function ("seafile-rpcserver",
+                                     seafile_upload_file,
+                                     "seafile_upload_file",
+                                     searpc_signature_int__string_string_string_string());
+
 }
 
 static void

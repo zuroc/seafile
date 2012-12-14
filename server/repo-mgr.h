@@ -192,6 +192,11 @@ seaf_repo_manager_post_file (SeafRepoManager *mgr,
                              const char *user,
                              GError **error);
 
+char *
+do_post_file (const char *root_id,
+              const char *parent_dir,
+              SeafDirent *dent);
+
 int
 seaf_repo_manager_post_multi_files (SeafRepoManager *mgr,
                                     const char *repo_id,

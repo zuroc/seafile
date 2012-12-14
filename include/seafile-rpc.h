@@ -395,6 +395,20 @@ seafile_gc (GError **error);
 int
 seafile_gc_get_progress (GError **error);
 
+/**
+ * seafile_upload_file:
+ *
+ * Upload a big file to server.
+ *
+ * Returns: -1 if failed, 0 is successful
+ */
+int
+seafile_upload_file (const char *filepath,
+                     const char *peerid,
+                     const char *repoid,
+                     const char *topath,
+                     GError **error);
+
 /* -----------------  Task Related --------------  */
 
 /**

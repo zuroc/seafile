@@ -153,7 +153,7 @@ out:
     return id;
 }
 
-static char *
+char *
 do_post_file (const char *root_id,
               const char *parent_dir,
               SeafDirent *dent)

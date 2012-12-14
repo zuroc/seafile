@@ -39,7 +39,13 @@ proc_headers = $(addprefix processors/, \
 	getcommit-v2-proc.h \
 	sendcommit-v2-proc.h \
 	sendcommit-v3-proc.h \
-	getrepoemailtoken-proc.h )
+	getrepoemailtoken-proc.h \
+	check-file-upload-proc.h \
+	uploadfs-proc.h \
+	uploadblock-proc.h \
+	commit-upload-file-proc.h \
+	uploadcommit-proc.h \
+	getcs-v2-proc.h )
 
 proc_headers += ../common/processors/objecttx-common.h \
 				../common/processors/blocktx-common.h \
@@ -53,6 +59,7 @@ noinst_HEADERS = \
 	wt-monitor.h \
 	merge.h merge-recursive.h vc-utils.h seafile-session.h \
 	clone-mgr.h \
+	file-upload-mgr.h \
 	share-mgr.h \
 	wt-monitor-common.h \
 	../common/sync-repo-common.h \
@@ -72,6 +79,7 @@ endif
 
 common_src = \
 	transfer-mgr.c \
+	file-upload-mgr.c \
 	../common/unpack-trees.c ../common/seaf-tree-walk.c \
 	merge.c merge-recursive.c vc-utils.c \
 	status.c sync-mgr.c seafile-session.c \
@@ -112,7 +120,13 @@ common_src = \
 	processors/getcommit-v2-proc.c \
 	processors/sendcommit-v2-proc.c \
 	processors/sendcommit-v3-proc.c \
-	processors/getrepoemailtoken-proc.c
+	processors/getrepoemailtoken-proc.c \
+	processors/check-file-upload-proc.c \
+	processors/uploadfs-proc.c \
+	processors/uploadblock-proc.c \
+	processors/commit-upload-file-proc.c \
+	processors/uploadcommit-proc.c \
+	processors/getcs-v2-proc.c
 
 
 seaf_daemon_SOURCES = seaf-daemon.c $(common_src)
